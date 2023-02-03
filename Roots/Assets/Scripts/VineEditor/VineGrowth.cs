@@ -8,9 +8,13 @@ public class VineGrowth : MonoBehaviour
     public LineRenderer line1, line2, line3;
     public Collider[] colliders;
 
+    private float minWidth = 0.005f;
+    private float maxWidth = 0.25f;
+    private float maxDistance = 3f;
+
     void Start()
     {
-        colliders = Physics.OverlapSphere(transform.position, 5, layerMask);
+        colliders = Physics.OverlapSphere(transform.position, maxDistance, layerMask);
 
         float dist1 = float.MaxValue;
         float dist2 = float.MaxValue;
@@ -54,11 +58,42 @@ public class VineGrowth : MonoBehaviour
         }
 
         // Connect nodes
+        if (col1 != null)
+        {
+            line1.SetPosition(0, line1.gameObject.transform.position);
+            line1.SetPosition(1, col1.gameObject.transform.position);
+        }
+        if (col2 != null)
+        {
+            line2.SetPosition(0, line2.gameObject.transform.position);
+            line2.SetPosition(1, col2.gameObject.transform.position);
+        }
+        if (col3 != null)
+        {
+            line3.SetPosition(0, line3.gameObject.transform.position);
+            line3.SetPosition(1, col3.gameObject.transform.position);
+        }
 
-
-        // TODO linewidth based on distance to next node from 0.1 to 0.25
-        // TODO upon recalculate readjust vines
-
+        // Linewidth based on distance to next node from 0.005 to 0.25
+        // connect with existing nodes, so at connect should be max width
+        if (col1 != null)
+        {
+            float width = Mathf.Clamp(dist1 / (maxDistance * 4), minWidth, maxWidth);
+            line1.startWidth = width;
+            line1.endWidth = maxWidth;
+        }
+        if (col2 != null)
+        {
+            float width = Mathf.Clamp(dist2 / (maxDistance * 4), minWidth, maxWidth);
+            line2.startWidth = width;
+            line2.endWidth = maxWidth;
+        }
+        if (col3 != null)
+        {
+            float width = Mathf.Clamp(dist3 / (maxDistance * 4), minWidth, maxWidth);
+            line3.startWidth = width;
+            line3.endWidth = maxWidth;
+        }
     }
 
     // Update is called once per frame
