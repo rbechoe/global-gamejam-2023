@@ -225,8 +225,9 @@ public class VineConnector : MonoBehaviour
         Collider col3 = null;
         foreach (Collider col in colliders)
         {
-            // if same object, ignore
+            // if same object or player, ignore
             if (col.gameObject == gameObject) continue;
+            if (col.gameObject.CompareTag("Player")) continue;
 
             float dist = Vector3.Distance(transform.position, col.gameObject.transform.position);
             if (dist < dist3)
