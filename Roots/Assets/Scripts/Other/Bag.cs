@@ -8,6 +8,7 @@ public class Bag : MonoBehaviour
     public GameObject hitter;
     public AudioSource source;
     public GameObject[] enables;
+    public GameObject[] transObjs;
     public LayerMask layerMask;
     public GameObject backgroundObj;
     private Material backgroundMat;
@@ -58,6 +59,10 @@ public class Bag : MonoBehaviour
                 {
                     obj.SetActive(true);
                 }
+                foreach (GameObject t in transObjs)
+                {
+                    t.SetActive(false);
+                }
                 interact.SetActive(false);
                 myMat.color = normalCol;
                 Destroy(this);
@@ -75,6 +80,12 @@ public class Bag : MonoBehaviour
         // TODO the closer it gets the less transparent the environment
         source.volume = Mathf.Clamp(.3f - distance / 4f, 0, 0.3f);
         backgroundMat.color = new Color(1, 1, 1, Mathf.Clamp(.3f - distance / 4f, 0, 0.3f));
+
+        foreach(GameObject t in transObjs)
+        {
+            Material mat = t.GetComponent<Renderer>().material;
+            mat.color = new Color(mat.color.r, mat.color.g, mat.color.b, Mathf.Clamp(1 - distance / 4f, 0, 1));
+        }
     }
 
     private void OnMouseEnter()
