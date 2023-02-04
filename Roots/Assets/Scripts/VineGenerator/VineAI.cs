@@ -12,7 +12,7 @@ public class VineAI : MonoBehaviour
 
     private float startWeight;
 
-    void Start()
+    public void StartSpawning()
     {
         startWeight = 100;
         transform.position = startPoint.transform.position;
