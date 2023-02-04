@@ -19,9 +19,12 @@ public class VineConnector : MonoBehaviour
     public float weight; // TODO weight is used in order to decide whether a branch will be connected, decreases each time unless it scores highest of the bunch
 
     public GameObject endPoint;
+    public GameObject parentNode;
     public Vector3 endPosition;
     private Vector3 targetDir;
     private Collider conNode;
+    private Collider col1 = null;
+    private Collider col2 = null;
 
     private float lifeTime = .5f;
     private float vineCD = 0;
@@ -29,6 +32,10 @@ public class VineConnector : MonoBehaviour
     private bool holyNode = false;
     private bool reachedEnding;
     private bool cantSpawn = false;
+
+    private int val = 0;
+    private float rootSpeed = 1.2f;
+    private float spawnLimit = 15;
 
     private void OnEnable()
     {
@@ -50,7 +57,13 @@ public class VineConnector : MonoBehaviour
 
     void Start()
     {
-        // TODO weight affects glow!!
+        val = Random.Range(0, 30);
+
+        Material myMat = line3.gameObject.GetComponent<Renderer>().material;
+        myMat.EnableKeyword("_EMISSION");
+        myMat.color = Color.green;
+        myMat.SetColor("_EmissiveColor", Color.green * weight * 250);
+
         if (!holyNode)
         {
             endPosition = new Vector3(Random.Range(transform.position.x - 5, transform.position.x + 5),
@@ -110,7 +123,7 @@ public class VineConnector : MonoBehaviour
             Vector3 newDir = Vector3.RotateTowards(transform.forward, targetDir, step, 0.0f);
             transform.rotation = Quaternion.LookRotation(newDir);
 
-            transform.position += transform.forward * 2 * Time.deltaTime;
+            transform.position += transform.forward * rootSpeed * Time.deltaTime;
 
             // Connect nodes
             if (conNode != null)
@@ -123,16 +136,18 @@ public class VineConnector : MonoBehaviour
 
             if (!cantSpawn && Random.Range(weight, 100) > 25 && vineCD <= 0 && !holyNode)
             {
-                weight -= 15;
+                weight -= spawnLimit;
                 SpawnNodes();
                 vineCD = 0.5f;
             }
 
-            if (holyNode && Vector3.Distance(transform.position, endPoint.transform.position) < 1f)
+            if (holyNode && Vector3.Distance(transform.position, endPoint.transform.position) < 2f)
             {
                 EventSystem.InvokeEvent(EventType.ReachedEnding);
                 print("Reached ending");
             }
+
+            UpdateRoots();
         }
 
         if (lifeTime <= 0 && !didRecalc)
@@ -153,10 +168,15 @@ public class VineConnector : MonoBehaviour
     void SpawnNodes(bool extra = false)
     {
         GameObject newNode = Instantiate(AINode, transform.position, Quaternion.identity);
-        newNode.transform.eulerAngles += new Vector3(Random.Range(0, 30) - 15, Random.Range(0, 30) - 15, Random.Range(0, 30) - 15);
+        newNode.transform.eulerAngles += new Vector3(
+            Random.Range(0, weight / 10f * 2) - weight / 10f, 
+            Random.Range(0, weight / 10f * 2) - weight / 10f, 
+            Random.Range(0, weight / 10f * 2) - weight / 10f
+        );
         VineConnector nodeVC = newNode.GetComponent<VineConnector>();
         nodeVC.endPoint = endPoint;
-        nodeVC.weight = weight - 15;
+        nodeVC.weight = weight - spawnLimit;
+        nodeVC.parentNode = gameObject;
         newNode.name = "Node " + GameObject.FindGameObjectsWithTag("Node").Count();
 
         if (holyNode && !extra && !createdHolyNode)
@@ -219,10 +239,8 @@ public class VineConnector : MonoBehaviour
 
         float dist1 = float.MaxValue;
         float dist2 = float.MaxValue;
-        float dist3 = float.MaxValue;
-        Collider col1 = null;
-        Collider col2 = null;
-        Collider col3 = null;
+        col1 = null;
+        col2 = null;
         foreach (Collider col in colliders)
         {
             // if same object or player, ignore
@@ -230,46 +248,38 @@ public class VineConnector : MonoBehaviour
             if (col.gameObject.CompareTag("Player")) continue;
 
             float dist = Vector3.Distance(transform.position, col.gameObject.transform.position);
-            if (dist < dist3)
+            if (dist < dist2)
             {
-                dist3 = dist;
-                col3 = col;
+                dist2 = dist;
+                col2 = col;
 
-                if (dist3 < dist2)
+                if (dist2 < dist1)
                 {
-                    dist3 = dist2;
-                    dist2 = dist;
-                    col3 = col2;
-                    col2 = col;
-
-                    if (dist2 < dist1)
-                    {
-                        dist2 = dist1;
-                        dist1 = dist;
-                        col2 = col1;
-                        col1 = col;
-                    }
+                    dist2 = dist1;
+                    dist1 = dist;
+                    col2 = col1;
+                    col1 = col;
                 }
             }
         }
+    }
 
+    private void UpdateRoots()
+    {
         // Connect nodes
-        int val = Random.Range(0,30);
-        if (col1 != null)
-        {
-            line1.SetPosition(0, transform.position);
-            line1.SetPosition(1, col1.gameObject.transform.position);
-        }
-        if (col2 != null && val > 5)
-        {
-            line2.SetPosition(0, transform.position);
-            line2.SetPosition(1, col2.gameObject.transform.position);
-        }
-        if (col3 != null && val > 15)
-        {
-            line3.SetPosition(0, transform.position);
-            line3.SetPosition(1, col3.gameObject.transform.position);
-        }
+        //if (col1 != null)
+        //{
+        //    line1.SetPosition(0, transform.position);
+        //    line1.SetPosition(1, col1.gameObject.transform.position);
+        //}
+        //if (col2 != null && val > 15)
+        //{
+        //    line2.SetPosition(0, transform.position);
+        //    line2.SetPosition(1, col2.gameObject.transform.position);
+        //}
+
+        line3.SetPosition(0, transform.position);
+        line3.SetPosition(1, parentNode.transform.position);
     }
 
     public void SetHolyNode(string caller)
