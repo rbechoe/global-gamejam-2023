@@ -73,23 +73,17 @@ public class Bag : MonoBehaviour
     private void FixedUpdate()
     {
         // TODO the closer it gets the less transparent the environment
-        source.volume = Mathf.Clamp(1 - distance / 2f, 0, 0.3f);
-        backgroundMat.color = new Color(1, 1, 1, Mathf.Clamp(1 - distance / 2f, 0, 0.3f));
+        source.volume = Mathf.Clamp(.3f - distance / 4f, 0, 0.3f);
+        backgroundMat.color = new Color(1, 1, 1, Mathf.Clamp(.3f - distance / 4f, 0, 0.3f));
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnMouseEnter()
     {
-        if (collision.gameObject.CompareTag("MouseObj"))
-        {
-            selected = true;
-        }
+        selected = true;
     }
 
-    private void OnCollisionExit(Collision collision)
+    private void OnMouseExit()
     {
-        if (collision.gameObject.CompareTag("MouseObj"))
-        {
-            selected = false;
-        }
+        selected = false;
     }
 }
