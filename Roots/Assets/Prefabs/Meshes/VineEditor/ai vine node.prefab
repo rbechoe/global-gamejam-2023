@@ -398,7 +398,7 @@ MonoBehaviour:
     m_Bits: 128
   forceMask:
     serializedVersion: 2
-    m_Bits: 119
+    m_Bits: 375
   line1: {fileID: 4904469641484989589}
   line2: {fileID: 430965724596294740}
   line3: {fileID: 8050276356219224694}
@@ -407,7 +407,6 @@ MonoBehaviour:
   weight: 0
   endPoint: {fileID: 0}
   endPosition: {x: 0, y: 0, z: 0}
-  holyNode: 0
 --- !u!1 &5871980813202033103
 GameObject:
   m_ObjectHideFlags: 0

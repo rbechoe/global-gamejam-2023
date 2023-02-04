@@ -32,6 +32,7 @@ public class VineAI : MonoBehaviour
             VineConnector nodeVC = newNode.GetComponent<VineConnector>();
             nodeVC.weight = startWeight;
             nodeVC.endPoint = endPoint;
+            nodeVC.parentNode = gameObject;
             if (i == 0) nodeVC.SetHolyNode(gameObject.name);
             newNode.name = "Node " + GameObject.FindGameObjectsWithTag("Node").Count();
         }
