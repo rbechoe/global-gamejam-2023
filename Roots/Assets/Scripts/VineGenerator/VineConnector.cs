@@ -118,10 +118,17 @@ public class VineConnector : MonoBehaviour
         {
             lifeTime -= Time.deltaTime;
 
-            targetDir = endPosition - transform.position;
-            float step = Time.deltaTime * 5;
-            Vector3 newDir = Vector3.RotateTowards(transform.forward, targetDir, step, 0.0f);
-            transform.rotation = Quaternion.LookRotation(newDir);
+            if (!holyNode)
+            {
+                targetDir = endPosition - transform.position;
+                float step = Time.deltaTime * 5;
+                Vector3 newDir = Vector3.RotateTowards(transform.forward, targetDir, step, 0.0f);
+                transform.rotation = Quaternion.LookRotation(newDir);
+            }
+            else
+            {
+                transform.LookAt(endPosition);
+            }
 
             transform.position += transform.forward * rootSpeed * Time.deltaTime;
 
@@ -134,7 +141,7 @@ public class VineConnector : MonoBehaviour
 
             ForceToSurface();
 
-            if (!cantSpawn && Random.Range(weight, 100) > 25 && vineCD <= 0 && !holyNode)
+            if (!cantSpawn && Random.Range(0, weight) > 20 && vineCD <= 0 && !holyNode)
             {
                 weight -= spawnLimit;
                 SpawnNodes();
