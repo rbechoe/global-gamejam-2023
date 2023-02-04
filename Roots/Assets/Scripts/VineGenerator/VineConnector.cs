@@ -23,10 +23,10 @@ public class VineConnector : MonoBehaviour
     private Vector3 targetDir;
     private Collider conNode;
 
-    private float lifeTime = 2f;
+    private float lifeTime = .5f;
     private float vineCD = 0;
     private bool didRecalc = false;
-    public bool holyNode = false;
+    private bool holyNode = false;
     private bool reachedEnding;
     private bool cantSpawn = false;
 
@@ -50,6 +50,7 @@ public class VineConnector : MonoBehaviour
 
     void Start()
     {
+        // TODO weight affects glow!!
         if (!holyNode)
         {
             endPosition = new Vector3(Random.Range(transform.position.x - 5, transform.position.x + 5),
@@ -122,7 +123,7 @@ public class VineConnector : MonoBehaviour
 
             if (!cantSpawn && Random.Range(weight, 100) > 25 && vineCD <= 0 && !holyNode)
             {
-                weight -= 10;
+                weight -= 15;
                 SpawnNodes();
                 vineCD = 0.5f;
             }
@@ -155,13 +156,13 @@ public class VineConnector : MonoBehaviour
         newNode.transform.eulerAngles += new Vector3(Random.Range(0, 30) - 15, Random.Range(0, 30) - 15, Random.Range(0, 30) - 15);
         VineConnector nodeVC = newNode.GetComponent<VineConnector>();
         nodeVC.endPoint = endPoint;
-        nodeVC.weight = weight - 10;
+        nodeVC.weight = weight - 15;
         newNode.name = "Node " + GameObject.FindGameObjectsWithTag("Node").Count();
 
         if (holyNode && !extra && !createdHolyNode)
         {
-            nodeVC.holyNode = true;
-            print("added holy node " + newNode.name + " from " + gameObject.name);
+            nodeVC.SetHolyNode(gameObject.name);
+
             if (Random.Range(0, 5) > 1)
             {
                 SpawnNodes(true);
@@ -252,20 +253,27 @@ public class VineConnector : MonoBehaviour
         }
 
         // Connect nodes
+        int val = Random.Range(0,30);
         if (col1 != null)
         {
             line1.SetPosition(0, transform.position);
             line1.SetPosition(1, col1.gameObject.transform.position);
         }
-        if (col2 != null)
+        if (col2 != null && val > 5)
         {
             line2.SetPosition(0, transform.position);
             line2.SetPosition(1, col2.gameObject.transform.position);
         }
-        if (col3 != null)
+        if (col3 != null && val > 15)
         {
             line3.SetPosition(0, transform.position);
             line3.SetPosition(1, col3.gameObject.transform.position);
         }
+    }
+
+    public void SetHolyNode(string caller)
+    {
+        //print(caller + " created " + gameObject.name);
+        holyNode = true;
     }
 }

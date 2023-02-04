@@ -10,8 +10,6 @@ public class VineAI : MonoBehaviour
 
     public GameObject AINode;
 
-    public List<GameObject> lastNodes = new List<GameObject>();
-
     private float startWeight;
 
     void Start()
@@ -34,9 +32,8 @@ public class VineAI : MonoBehaviour
             VineConnector nodeVC = newNode.GetComponent<VineConnector>();
             nodeVC.weight = startWeight;
             nodeVC.endPoint = endPoint;
-            if (i == 0) nodeVC.holyNode = true;
+            if (i == 0) nodeVC.SetHolyNode(gameObject.name);
             newNode.name = "Node " + GameObject.FindGameObjectsWithTag("Node").Count();
-            lastNodes.Add(newNode);
         }
     }
 }

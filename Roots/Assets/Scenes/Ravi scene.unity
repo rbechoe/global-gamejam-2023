@@ -1937,7 +1937,6 @@ MonoBehaviour:
   startPoint: {fileID: 459315963}
   endPoint: {fileID: 713509327}
   AINode: {fileID: 5665476078609476007, guid: 831f1a72fca49bf4fa9d70d2618aea38, type: 3}
-  lastNodes: []
 --- !u!4 &1391650337
 Transform:
   m_ObjectHideFlags: 0
