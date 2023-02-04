@@ -4,11 +4,16 @@ using UnityEngine;
 
 public class DoorHandle : MonoBehaviour
 {
-    public GameObject door;
+    CharacterController charCon;
+    PlayerController plaCon;
+
+    public GameObject player;
+
+    public Vector3 coupe2;
 
     void Start()
     {
-        
+        //   player = GameObject.FindGameObjectWithTag("Player");
     }
 
     void Update()
@@ -18,13 +23,14 @@ public class DoorHandle : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (Input.GetKeyDown(KeyCode.E))
-        {
+        charCon.enabled = false;
+        plaCon.enabled = false;
+
             Debug.Log("opened door");
 
-            door.SetActive(false);
-            this.gameObject.SetActive(false);
-            //handle.transform.rotation.z += 90;
-        }
+            player.transform.position = coupe2;
+
+        charCon.enabled = true;
+        plaCon.enabled = true;
     }
 }
