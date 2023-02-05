@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class Endingcommence : MonoBehaviour
 {
-    public GameObject camPlayer, camFinal;
+    public GameObject camPlayer, camFinal, audioObjOld, audioObjNew, PP;
+    bool trig;
 
     void Start()
     {
@@ -18,14 +19,22 @@ public class Endingcommence : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        
-        StartCoroutine(StartEnding());
+        if (other.CompareTag("Player") && !trig)
+        {
+            StartCoroutine(StartEnding());
+            trig = true;
+        }
     }
 
     public IEnumerator StartEnding()
     {
         Debug.Log("Started timing");
 
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(2f);
+        camPlayer.SetActive(false);
+        camFinal.SetActive(true);
+        audioObjOld.SetActive(false);
+        PP.SetActive(false);
+        audioObjNew.SetActive(true);
     }
 }

@@ -13,7 +13,8 @@ public class DoorHandle : MonoBehaviour
 
     void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player");
+        charCon = player.GetComponent<CharacterController>();
+        plaCon = player.GetComponent<PlayerController>();
     }
 
     void Update()
@@ -21,16 +22,21 @@ public class DoorHandle : MonoBehaviour
         
     }
 
-    private void OnTriggerStay(Collider other)
+    private void OnTriggerEnter(Collider other)
     {
-        if (Input.GetKeyDown(KeyCode.E) && other.tag == "Player")
+        if (other.tag == "Player")
         {
             Debug.Log("hit handel box");
 
-            //show text
+            charCon.enabled = false;
+            plaCon.enabled = false;
 
-            //teleport player
+            player.transform.position = coupe2;
 
+            charCon.enabled = true;
+            plaCon.enabled = true;
+
+            gameObject.SetActive(false);
         }
     }
 }

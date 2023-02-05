@@ -16,7 +16,7 @@ public class TVPuzzel : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetKeyDown(KeyCode.E) || Input.GetMouseButtonDown(0))
         {
             RaycastHit hit;
 
