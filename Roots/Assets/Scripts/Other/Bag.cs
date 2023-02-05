@@ -14,6 +14,7 @@ public class Bag : MonoBehaviour
     private Material backgroundMat;
     public GameObject interact;
     private Material myMat;
+    public GameObject otherending;
 
     bool selected;
 
@@ -65,6 +66,7 @@ public class Bag : MonoBehaviour
                 }
                 interact.SetActive(false);
                 myMat.color = normalCol;
+                otherending.SetActive(false);
                 Destroy(this);
             }
         }
@@ -78,7 +80,7 @@ public class Bag : MonoBehaviour
     private void FixedUpdate()
     {
         // TODO the closer it gets the less transparent the environment
-        source.volume = Mathf.Clamp(.3f - distance / 4f, 0, 0.3f);
+        source.volume = Mathf.Clamp(.3f - distance / 5f, 0.05f, 0.3f);
         backgroundMat.color = new Color(1, 1, 1, Mathf.Clamp(.3f - distance / 4f, 0, 0.3f));
 
         foreach(GameObject t in transObjs)
