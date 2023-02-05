@@ -12,6 +12,7 @@ public class spawnobj : MonoBehaviour
     public bool staight;
 
     public float amount;
+    public float Yaxe;
 
     void Start()
     {
@@ -33,7 +34,7 @@ public class spawnobj : MonoBehaviour
             Quaternion rot;
             if (!staight)
             {
-                rot = Quaternion.Euler(Random.Range(0, 360), 0, Random.Range(0, 360));
+                rot = Quaternion.Euler(Random.Range(0, 360), Yaxe, Random.Range(0, 360));
             }
             else
             {
