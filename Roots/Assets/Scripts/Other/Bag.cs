@@ -14,6 +14,7 @@ public class Bag : MonoBehaviour
     private Material backgroundMat;
     public GameObject interact;
     private Material myMat;
+    public GameObject otherending;
 
     bool selected;
 
@@ -65,6 +66,7 @@ public class Bag : MonoBehaviour
                 }
                 interact.SetActive(false);
                 myMat.color = normalCol;
+                otherending.SetActive(false);
                 Destroy(this);
             }
         }

@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class fastending : MonoBehaviour
 {
     bool selected = false;
+    bool enab = false;
     public GameObject ui;
     public GameObject audioEnd;
     public GameObject wallEnd;
@@ -21,11 +22,12 @@ public class fastending : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (selected)
+        if (selected && !enab)
         {
             ui.SetActive(true);
             if (Input.GetKeyDown(KeyCode.E))
             {
+                enab = true;
                 audioEnd.GetComponent<AudioSource>().Play();
                 StartCoroutine(StartEnding());
 

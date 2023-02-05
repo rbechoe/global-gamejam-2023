@@ -6339,6 +6339,7 @@ MonoBehaviour:
     m_Bits: 503
   backgroundObj: {fileID: 1054923010}
   interact: {fileID: 1622318024}
+  otherending: {fileID: 317622106}
 --- !u!1 &5752471785255318615
 GameObject:
   m_ObjectHideFlags: 0
