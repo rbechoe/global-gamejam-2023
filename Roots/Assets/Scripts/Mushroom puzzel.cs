@@ -2,18 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DoorHandle : MonoBehaviour
+public class Mushroompuzzel : MonoBehaviour
 {
-    CharacterController charCon;
-    PlayerController plaCon;
-
-    public GameObject player;
-
-    public Vector3 coupe2;
+    public PlayerManager player;
 
     void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player");
+        
     }
 
     void Update()
@@ -25,7 +20,11 @@ public class DoorHandle : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.E) && other.tag == "Player")
         {
-            Debug.Log("hit handel box");
+            //Debug.Log("hit mushroom");
+
+            PlayerManager.mushroomNum++;
+
+            this.gameObject.SetActive(false);
 
             //show text
 
