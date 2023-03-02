@@ -6502,7 +6502,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!82 &1896667140
 AudioSource:
   m_ObjectHideFlags: 0
@@ -6513,7 +6513,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: fe0f4a472e64afa438d02813249e101c, type: 3}
+  m_audioClip: {fileID: 8300000, guid: f1d25f76d9f3f5043ba2af703b00b6e2, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -7149,7 +7149,7 @@ GameObject:
   - component: {fileID: 2059841296}
   - component: {fileID: 2059841297}
   m_Layer: 0
-  m_Name: collider
+  m_Name: collider final
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
